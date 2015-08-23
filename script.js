@@ -5,6 +5,11 @@ var rows = document.getElementsByTagName("tr");
 var gameBoard = document.querySelector("table");
 
 
+// Keeps track if 1/2 images have been clicked
+var firstClicked = false;
+var secondClicked = false;
+
+
 //creates gameBoard w/ duplicate tiles
 createTiles();
 
@@ -16,27 +21,6 @@ addTilesToBoard(tiles);
 
 //add click listeners to each tile
 addListeners(tiles);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -148,6 +132,7 @@ function checkTile()
 {
 	// gives me access to the number inside each td
 	console.log(this.getAttribute("data-tile"));
+	console.log(this.classList[0]);
 }
 
 	
