@@ -17,6 +17,10 @@ var secondObject;
 // Tracks total matches --> if matches = 8 --> WIN
 var matchCount = 0;
 
+// Reset Button
+var resetButton = document.getElementById('reset');
+resetButton.addEventListener("click", clearBoard);
+
 
 //creates gameBoard w/ duplicate tiles
 createTiles();
@@ -215,6 +219,7 @@ function checkTile()
 
 				if(matchCount == 8)
 				{
+
 					console.log("Congratulations!  YOU WIN!!!");
 				}
 
@@ -232,7 +237,13 @@ function checkTile()
 
 				// Set background images to ""
 				firstObject.style.backgroundImage = "url(./images/start.jpg)";
+				firstObject.style.backgroundSize = "100% 100%";
+				firstObject.style.backgroundRepeat = "no-repeat";
+
 				secondObject.style.backgroundImage = "url(./images/start.jpg)";
+				secondObject.style.backgroundSize = "100% 100%";
+				secondObject.style.backgroundRepeat = "no-repeat";
+
 
 				// set clicked values to false
 				firstClicked = false;
@@ -244,7 +255,36 @@ function checkTile()
 			}
 		}	
 	}
+}
 
+function clearBoard()
+{
+	//Clear matches
+	matchCount = 0;
+
+	// set clicked values to false
+	firstClicked = false;
+	secondClicked = false;
+
+	//iterate through the board, set all tiles to ?.
+
+	tiles.forEach(function(tile)
+	{
+		tile.style.backgroundImage = "url(./images/start.jpg)";
+		tile.style.backgroundSize = "100% 100%";
+		tile.style.backgroundRepeat = "no-repeat";
+	});
+
+	//reset object values
+	firstObject = null;
+	secondObject = null;
+
+
+	tiles = shuffle(tiles);
+	
+	addTilesToBoard(tiles);
+
+	addListeners(tiles);
 
 
 }
