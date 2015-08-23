@@ -1,6 +1,7 @@
 window.onload = function(){
 
 var tiles = [];  //array of td's
+var rows = document.getElementsByTagName("tr");
 var gameBoard = document.querySelector("table");
 
 
@@ -58,8 +59,8 @@ function createTiles()
 
 
 		//Style the tiles
-		tile.style.width = "50px";
-		tile.style.paddingBottom = "50px";
+		tile.style.width = "150px";
+		tile.style.paddingBottom = "150px";
 		tile.style.cssFloat = "left";
 
 		if(i % 2 === 0)
@@ -68,7 +69,7 @@ function createTiles()
 		}
 		else
 		{
-		   tile.style.backgroundColor = "black";	
+		   tile.style.backgroundColor = "green";	
 		}
 	}
 
@@ -84,17 +85,17 @@ function createTiles()
 
 
 		//Style the tiles
-		tile.style.width = "50px";
-		tile.style.paddingBottom = "50px";
+		tile.style.width = "150px";
+		tile.style.paddingBottom = "150px";
 		tile.style.cssFloat = "left";
 
 		if(i % 2 === 0)
 		{
-		  tile.style.backgroundColor = "red";	
+		  tile.style.backgroundColor = "purple";	
 		}
 		else
 		{
-		   tile.style.backgroundColor = "black";	
+		   tile.style.backgroundColor = "blue";	
 		}
 	}
 }
@@ -111,8 +112,25 @@ function shuffle(tiles)
 // 4) Add tiles to board
 function addTilesToBoard(tiles)
 {
+	var rowCounter = 0;
 	tiles.forEach(function(tile){
-	gameBoard.appendChild(tile);
+		if(rowCounter < 4)
+		{
+			rows[0].appendChild(tile);
+		}
+		else if(rowCounter < 8)
+		{
+			rows[1].appendChild(tile);
+		}
+		else if(rowCounter < 12)
+		{
+			rows[2].appendChild(tile);
+		}
+		else
+		{
+			rows[3].appendChild(tile);
+		}
+	rowCounter++;
 	});
 }
 
@@ -128,7 +146,8 @@ function addListeners(tiles)
 
 function checkTile()
 {
-	console.log(this);
+	// gives me access to the number inside each td
+	console.log(this.getAttribute("data-tile"));
 }
 
 	
