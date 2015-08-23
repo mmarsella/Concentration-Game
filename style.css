@@ -1,7 +1,12 @@
 .filler{
-	padding-bottom: 150px;
+	padding-bottom: 20px;
 }
 
 td{
-	border: solid white 2px;
+	border: solid black 4px;
+	background-image: 100%;
+}
+
+table{
+	margin: auto;
 }

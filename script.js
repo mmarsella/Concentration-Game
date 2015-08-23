@@ -9,6 +9,14 @@ var gameBoard = document.querySelector("table");
 var firstClicked = false;
 var secondClicked = false;
 
+//Refers to the current 2 clicked objects
+
+var firstObject;
+var secondObject;
+
+// Tracks total matches --> if matches = 8 --> WIN
+var matchCount = 0;
+
 
 //creates gameBoard w/ duplicate tiles
 createTiles();
@@ -21,6 +29,8 @@ addTilesToBoard(tiles);
 
 //add click listeners to each tile
 addListeners(tiles);
+
+
 
 
 
@@ -43,18 +53,19 @@ function createTiles()
 
 
 		//Style the tiles
-		tile.style.width = "150px";
-		tile.style.paddingBottom = "150px";
+		tile.style.width = "120px";
+		tile.style.paddingBottom = "120px";
 		tile.style.cssFloat = "left";
 
-		if(i % 2 === 0)
-		{
-		  tile.style.backgroundColor = "red";	
-		}
-		else
-		{
-		   tile.style.backgroundColor = "green";	
-		}
+		
+		 // tile.style.backgroundColor = "white";	
+		  tile.style.backgroundImage = "url(./images/start.jpg)";
+		  // Scales images to the container
+		  tile.style.backgroundSize = "100% 100%";
+	
+		  tile.style.backgroundRepeat = "no-repeat";
+		
+		
 	}
 
 	//create 8 duplicate tiles... matching data-tile id's
@@ -69,18 +80,17 @@ function createTiles()
 
 
 		//Style the tiles
-		tile.style.width = "150px";
-		tile.style.paddingBottom = "150px";
+		tile.style.width = "120px";
+		tile.style.paddingBottom = "120px";
 		tile.style.cssFloat = "left";
 
-		if(i % 2 === 0)
-		{
-		  tile.style.backgroundColor = "purple";	
-		}
-		else
-		{
-		   tile.style.backgroundColor = "blue";	
-		}
+		
+		//tile.style.backgroundColor = "white";	
+		tile.style.backgroundImage = "url(./images/start.jpg)";
+		  // Scales images to the container
+		tile.style.backgroundSize = "100% 100%";
+	
+		tile.style.backgroundRepeat = "no-repeat";
 	}
 }
 
@@ -127,12 +137,116 @@ function addListeners(tiles)
 	});
 }
 
+function flipOver(that)
+{
+	var tileNumber = that.getAttribute("data-tile");
+
+	if(!firstClicked)
+	{
+		firstClicked = tileNumber;
+		firstObject = that;
+		that.removeEventListener("click",checkTile);
+	}
+	else
+	{
+		secondClicked = tileNumber;
+		secondObject = that;
+		that.removeEventListener("click",checkTile);
+
+	}
+
+	console.log("first-clicked is: " + firstClicked);
+	console.log("second-clicked is: " + secondClicked);
+
+
+	// Set background image to the data-tile number.  Saved each image as n.jpg
+	that.style.backgroundImage = "url(./images/" + tileNumber + ".jpg)";
+	that.style.backgroundImage = "transparent url(./images/" + tileNumber + ".jpg)";
+
+	// Scales images to the container
+	that.style.backgroundSize = "100%";
+	
+	that.style.backgroundRepeat = "no-repeat";
+
+
+
+	//that.querySelector("img").setAttribute("src", "./images/" + tileNumber + ".jpg");
+}
+
+// Check if firstClicked & secondClicked are a match
+// If they are:
+// Increment matchCount
+// remove listeners and keep them flipped over
+
 
 function checkTile()
 {
 	// gives me access to the number inside each td
-	console.log(this.getAttribute("data-tile"));
-	console.log(this.classList[0]);
+	var that = this;
+	var tileNumber = this.getAttribute("data-tile");
+	console.log(tileNumber);
+
+	// trigger the classlist to be the data tile
+	this.classList.add(tileNumber);
+	console.log(that.classList[0]);
+
+
+
+	// Check to see how many tiles are flipped over
+	flipOver(that);
+
+
+	setTimeout(checkMatch,1000);
+
+
+	function checkMatch()
+	{
+		//If two tiles are flipped over
+		if(firstClicked && secondClicked)
+		{
+			// Check if they are match
+			if(firstClicked === secondClicked)
+			{
+				console.log("A match!!!");
+
+				//Increment matchCounter
+				matchCount++;
+				console.log("Total matches: " + matchCount);
+
+				if(matchCount == 8)
+				{
+					console.log("Congratulations!  YOU WIN!!!");
+				}
+
+				// set clicked values to false
+				firstClicked = false;
+				secondClicked = false;
+
+				//reset object values
+				firstObject = null;
+				secondObject = null;
+
+			}
+			else
+			{
+
+				// Set background images to ""
+				firstObject.style.backgroundImage = "url(./images/start.jpg)";
+				secondObject.style.backgroundImage = "url(./images/start.jpg)";
+
+				// set clicked values to false
+				firstClicked = false;
+				secondClicked = false;
+
+				//add listeners back to both tiles
+				firstObject.addEventListener("click",checkTile);
+				secondObject.addEventListener("click",checkTile);
+			}
+		}	
+	}
+
+
+
 }
 
 	
