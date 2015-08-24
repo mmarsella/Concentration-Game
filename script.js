@@ -178,7 +178,7 @@ function checkTile()
 
 	//allows for cards to stay revealed for a second
 
-	//Changing this to 300ms vs 1000ms prevents a third tile to be selcted while 2 tiles are being evaluated!!
+	//Changing this to 150ms vs 1000ms prevents a third tile to be selcted while 2 tiles are being evaluated!!
 	setTimeout(checkMatch,150);
 
 function checkMatch()
