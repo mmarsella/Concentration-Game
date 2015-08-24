@@ -15,7 +15,7 @@ var firstObject;
 var secondObject;
 
 // Tracks total matches --> if matches = 8 --> WIN
-var matchCount = 7;
+var matchCount = 0;
 
 //Time count
 var timeCount = 0;
