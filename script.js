@@ -15,7 +15,12 @@ var firstObject;
 var secondObject;
 
 // Tracks total matches --> if matches = 8 --> WIN
-var matchCount = 0;
+var matchCount = 7;
+
+//Time count
+var timeCount = 0;
+document.querySelector("#time").innerText = timeCount;
+
 
 //Displays the matchCount in html
 document.querySelector("#matches").innerText = matchCount;
@@ -41,6 +46,8 @@ addTilesToBoard(tiles);
 //add click listeners to each tile
 addListeners(tiles);
 
+//start timer
+var timerId = startTimer();
 
 
 
@@ -230,7 +237,11 @@ function checkTile()
 				{
 					document.getElementById("you").innerText = "YOU";
 					document.getElementById("win").innerText = "WIN!!";
-					console.log("Congratulations!  YOU WIN!!!");
+
+					//stop timer
+					clearInterval(timerId);
+					document.querySelector("#time").innerText = timeCount;
+
 				}
 
 				// set clicked values to false
@@ -298,7 +309,22 @@ function clearBoard()
 
 	addListeners(tiles);
 
+	//stop timer
+	clearInterval(timerId);
 
+}
+
+function startTimer()
+{
+	timerID = setInterval(function()
+	{
+		timeCount++;
+		document.querySelector("#time").innerText = timeCount;
+
+
+	},1000);
+
+	return timerID;
 }
 
 	
