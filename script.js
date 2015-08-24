@@ -18,7 +18,7 @@ var secondObject;
 var matchCount = 0;
 
 //Time count
-var timeCount = 0;
+var timeCount = 30;
 document.querySelector("#time").innerText = timeCount;
 var timerId;
 
@@ -312,10 +312,16 @@ function clearBoard()
 
 	//stop timer
 	clearInterval(timerId);
-	//set display to equal 0
-	timeCount = 0;
+	//set display to equal 80
+	timeCount = 30;
 	document.querySelector("#time").innerText = timeCount;
 
+	//remove win/lose message
+	document.getElementById("you").innerText = "";
+	document.getElementById("win").innerText = "";
+
+
+	//set timer again capture ID
 	timerId = startTimer();
 
 
@@ -326,13 +332,32 @@ function startTimer()
 {
 	timerID = setInterval(function()
 	{
-		timeCount++;
+		timeCount--;
 		document.querySelector("#time").innerText = timeCount;
+
+		if(timeCount === 0)
+		{
+			//prompt lose message
+			document.getElementById("you").innerText = "YOU";
+			document.getElementById("win").innerText = "LOSE!!";
+			//stop clock
+			clearInterval(timerId);
+
+			//remove listeners
+			removeListeners(tiles);
+		}
 
 
 	},1000);
 
 	return timerID;
+}
+
+function removeListeners(tiles)
+{
+	tiles.forEach(function(tile){
+	tile.removeEventListener("click", checkTile);
+	});
 }
 
 	
