@@ -18,22 +18,16 @@ var secondObject;
 var matchCount = 0;
 
 //Time count
-var timeCount = 30;
+var timeCount = 60;
 document.querySelector("#time").innerText = timeCount;
 var timerId;
-
 
 //Displays the matchCount in html
 document.querySelector("#matches").innerText = matchCount;
 
-
-
 // Reset Button
 var resetButton = document.getElementById('reset');
 resetButton.addEventListener("click", clearBoard);
-
-
-
 
 //creates gameBoard w/ duplicate tiles
 createTiles();
@@ -49,14 +43,6 @@ addListeners(tiles);
 
 //start timer
 timerId = startTimer();
-
-
-
-
-
-
-
-
 
 function createTiles()
 {
@@ -82,9 +68,7 @@ function createTiles()
 		  // Scales images to the container
 		  tile.style.backgroundSize = "100% 100%";
 	
-		  tile.style.backgroundRepeat = "no-repeat";
-		
-		
+		  tile.style.backgroundRepeat = "no-repeat";	
 	}
 
 	//create 8 duplicate tiles... matching data-tile id's
@@ -113,16 +97,13 @@ function createTiles()
 	}
 }
 
-
-
-// 3) Shuffle
+//Shuffle
 function shuffle(tiles)
 {
   return _.shuffle(tiles);
 }
 
-
-// 4) Add tiles to board
+//Add tiles to board
 function addTilesToBoard(tiles)
 {
 	var rowCounter = 0;
@@ -146,7 +127,6 @@ function addTilesToBoard(tiles)
 	rowCounter++;
 	});
 }
-
 
 // 5) Loop and add Listener
 function addListeners(tiles)
@@ -173,11 +153,8 @@ function flipOver(that)
 		that.removeEventListener("click",checkTile);
 
 	}
-
-	console.log("first-clicked is: " + firstClicked);
-	console.log("second-clicked is: " + secondClicked);
-
-
+	// console.log("first-clicked is: " + firstClicked);
+	// console.log("second-clicked is: " + secondClicked);
 	// Set background image to the data-tile number.  Saved each image as n.jpg
 	that.style.backgroundImage = "url(./images/" + tileNumber + ".jpg)";
 	that.style.backgroundImage = "transparent url(./images/" + tileNumber + ".jpg)";
@@ -186,97 +163,81 @@ function flipOver(that)
 	that.style.backgroundSize = "100%";
 	
 	that.style.backgroundRepeat = "no-repeat";
-
-
-
-	//that.querySelector("img").setAttribute("src", "./images/" + tileNumber + ".jpg");
 }
-
-// Check if firstClicked & secondClicked are a match
-// If they are:
-// Increment matchCount
-// remove listeners and keep them flipped over
-
 
 function checkTile()
 {
 	// gives me access to the number inside each td
 	var that = this;
 	var tileNumber = this.getAttribute("data-tile");
-	console.log(tileNumber);
 
 	// trigger the classlist to be the data tile
 	this.classList.add(tileNumber);
 	console.log(that.classList[0]);
 
-
-
 	// Check to see how many tiles are flipped over
 	flipOver(that);
 
-
+	//allows for cards to stay revealed for a second
 	setTimeout(checkMatch,1000);
 
+function checkMatch()
+{
+	// //freeze all panes from being touched while checkMatch evaluates
+	// removeListeners(tiles);
+	// setTimeout(addListeners(tiles),600);
 
-	function checkMatch()
+	//If two tiles are flipped over
+	if(firstClicked && secondClicked)
 	{
-		//If two tiles are flipped over
-		if(firstClicked && secondClicked)
+		// Check if they are match
+		if(firstClicked === secondClicked)
 		{
-			// Check if they are match
-			if(firstClicked === secondClicked)
+			console.log("A match!!!");
+
+			//Increment matchCounter
+			matchCount++;
+			document.querySelector("#matches").innerText = matchCount;
+
+			console.log("Total matches: " + matchCount);
+
+			if(matchCount == 8)
 			{
-				console.log("A match!!!");
+				document.getElementById("you").innerText = "YOU";
+				document.getElementById("win").innerText = "WIN!!";
 
-				//Increment matchCounter
-				matchCount++;
-				document.querySelector("#matches").innerText = matchCount;
-
-				console.log("Total matches: " + matchCount);
-
-				if(matchCount == 8)
-				{
-					document.getElementById("you").innerText = "YOU";
-					document.getElementById("win").innerText = "WIN!!";
-
-					//stop timer
-					clearInterval(timerId);
-					document.querySelector("#time").innerText = timeCount;
-
-				}
-
-				// set clicked values to false
-				firstClicked = false;
-				secondClicked = false;
-
-				//reset object values
-				firstObject = null;
-				secondObject = null;
-
+				//stop timer
+				clearInterval(timerId);
+				document.querySelector("#time").innerText = timeCount;
 			}
-			else
-			{
+			// set clicked values to false
+			firstClicked = false;
+			secondClicked = false;
+			//reset object values
+			firstObject = null;
+			secondObject = null;
+		}
+		else
+		{
+			// Set background images to ""
+			firstObject.style.backgroundImage = "url(./images/start.jpg)";
+			firstObject.style.backgroundSize = "100% 100%";
+			firstObject.style.backgroundRepeat = "no-repeat";
 
-				// Set background images to ""
-				firstObject.style.backgroundImage = "url(./images/start.jpg)";
-				firstObject.style.backgroundSize = "100% 100%";
-				firstObject.style.backgroundRepeat = "no-repeat";
+			secondObject.style.backgroundImage = "url(./images/start.jpg)";
+			secondObject.style.backgroundSize = "100% 100%";
+			secondObject.style.backgroundRepeat = "no-repeat";
 
-				secondObject.style.backgroundImage = "url(./images/start.jpg)";
-				secondObject.style.backgroundSize = "100% 100%";
-				secondObject.style.backgroundRepeat = "no-repeat";
+			// set clicked values to false
+			firstClicked = false;
+			secondClicked = false;
 
-
-				// set clicked values to false
-				firstClicked = false;
-				secondClicked = false;
-
-				//add listeners back to both tiles
-				firstObject.addEventListener("click",checkTile);
-				secondObject.addEventListener("click",checkTile);
-			}
-		}	
-	}
+			//add listeners back to both tiles
+			firstObject.addEventListener("click",checkTile);
+			secondObject.addEventListener("click",checkTile);
+		}
+	}	
+  }
 }
 
 function clearBoard()
@@ -285,13 +246,11 @@ function clearBoard()
 	matchCount = 0;
 	document.querySelector("#matches").innerText = matchCount;
 
-
 	// set clicked values to false
 	firstClicked = false;
 	secondClicked = false;
 
 	//iterate through the board, set all tiles to ?.
-
 	tiles.forEach(function(tile)
 	{
 		tile.style.backgroundImage = "url(./images/start.jpg)";
@@ -303,7 +262,6 @@ function clearBoard()
 	firstObject = null;
 	secondObject = null;
 
-
 	tiles = shuffle(tiles);
 
 	addTilesToBoard(tiles);
@@ -313,19 +271,15 @@ function clearBoard()
 	//stop timer
 	clearInterval(timerId);
 	//set display to equal 80
-	timeCount = 30;
+	timeCount = 60;
 	document.querySelector("#time").innerText = timeCount;
 
 	//remove win/lose message
 	document.getElementById("you").innerText = "";
 	document.getElementById("win").innerText = "";
 
-
 	//set timer again capture ID
 	timerId = startTimer();
-
-
-
 }
 
 function startTimer()
@@ -346,7 +300,6 @@ function startTimer()
 			//remove listeners
 			removeListeners(tiles);
 		}
-
 
 	},1000);
 
