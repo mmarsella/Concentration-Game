@@ -81,13 +81,11 @@ function createTiles()
 		// Push it into the gameboard array
 		tiles.push(tile);
 
-
 		//Style the tiles
 		tile.style.width = "120px";
 		tile.style.paddingBottom = "120px";
 		tile.style.cssFloat = "left";
-
-		
+	
 		//tile.style.backgroundColor = "white";	
 		tile.style.backgroundImage = "url(./images/start.jpg)";
 		  // Scales images to the container
@@ -179,7 +177,9 @@ function checkTile()
 	flipOver(that);
 
 	//allows for cards to stay revealed for a second
-	setTimeout(checkMatch,1000);
+
+	//Changing this to 300ms vs 1000ms prevents a third tile to be selcted while 2 tiles are being evaluated!!
+	setTimeout(checkMatch,150);
 
 function checkMatch()
 {
