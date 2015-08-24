@@ -173,7 +173,7 @@ function checkTile()
 
 	// trigger the classlist to be the data tile
 	this.classList.add(tileNumber);
-	console.log(that.classList[0]);
+	//console.log(that.classList[0]);
 
 	// Check to see how many tiles are flipped over
 	flipOver(that);
@@ -193,7 +193,7 @@ function checkMatch()
 		// Check if they are match
 		if(firstClicked === secondClicked)
 		{
-			console.log("A match!!!");
+			//console.log("A match!!!");
 
 			//Increment matchCounter
 			matchCount++;
