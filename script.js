@@ -17,9 +17,16 @@ var secondObject;
 // Tracks total matches --> if matches = 8 --> WIN
 var matchCount = 0;
 
+//Displays the matchCount in html
+document.querySelector("#matches").innerText = matchCount;
+
+
+
 // Reset Button
 var resetButton = document.getElementById('reset');
 resetButton.addEventListener("click", clearBoard);
+
+
 
 
 //creates gameBoard w/ duplicate tiles
@@ -215,11 +222,14 @@ function checkTile()
 
 				//Increment matchCounter
 				matchCount++;
+				document.querySelector("#matches").innerText = matchCount;
+
 				console.log("Total matches: " + matchCount);
 
 				if(matchCount == 8)
 				{
-
+					document.getElementById("you").innerText = "YOU";
+					document.getElementById("win").innerText = "WIN!!";
 					console.log("Congratulations!  YOU WIN!!!");
 				}
 
@@ -261,6 +271,8 @@ function clearBoard()
 {
 	//Clear matches
 	matchCount = 0;
+	document.querySelector("#matches").innerText = matchCount;
+
 
 	// set clicked values to false
 	firstClicked = false;
@@ -281,7 +293,7 @@ function clearBoard()
 
 
 	tiles = shuffle(tiles);
-	
+
 	addTilesToBoard(tiles);
 
 	addListeners(tiles);

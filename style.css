@@ -30,3 +30,18 @@ span{
 	color: white;
 
 }
+
+#you{
+
+	font-size: 100px;
+	float: right;
+	font-family: 'Bangers', cursive;
+	color: white;
+
+}
+
+#win{
+	font-size: 100px;
+	font-family: 'Bangers', cursive;
+	color: white;
+}
