@@ -20,6 +20,7 @@ var matchCount = 7;
 //Time count
 var timeCount = 0;
 document.querySelector("#time").innerText = timeCount;
+var timerId;
 
 
 //Displays the matchCount in html
@@ -47,7 +48,7 @@ addTilesToBoard(tiles);
 addListeners(tiles);
 
 //start timer
-var timerId = startTimer();
+timerId = startTimer();
 
 
 
@@ -311,6 +312,13 @@ function clearBoard()
 
 	//stop timer
 	clearInterval(timerId);
+	//set display to equal 0
+	timeCount = 0;
+	document.querySelector("#time").innerText = timeCount;
+
+	timerId = startTimer();
+
+
 
 }
 
